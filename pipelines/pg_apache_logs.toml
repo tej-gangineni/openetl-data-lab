@@ -1,0 +1,22 @@
+name        = "pg_apache_logs"
+description = "Apache web-server error log (loghub) -> postgres table apache_logs"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/logs-parts/Apache"
+filter    = "*.log"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "postgres"
+write_mode = "append"
+table      = "apache_logs"
+dsn        = "postgresql://lab:lab@127.0.0.1:5433/openetl"

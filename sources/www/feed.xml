@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0">
+  <channel>
+    <title>OpenETL lab feed</title>
+    <link>http://127.0.0.1:8765/</link>
+    <description>Three local items for testing the RSS source</description>
+    <item><title>Lab item one</title><link>http://127.0.0.1:8765/pages/4G.html</link><guid>lab-1</guid><pubDate>Mon, 27 Oct 2026 09:00:00 GMT</pubDate><description>First local item</description></item>
+    <item><title>Lab item two</title><link>http://127.0.0.1:8765/pages/5G.html</link><guid>lab-2</guid><pubDate>Mon, 27 Oct 2026 09:05:00 GMT</pubDate><description>Second local item</description></item>
+    <item><title>Lab item three</title><link>http://127.0.0.1:8765/pages/Bluetooth.html</link><guid>lab-3</guid><pubDate>Mon, 27 Oct 2026 09:10:00 GMT</pubDate><description>Third local item</description></item>
+  </channel>
+</rss>

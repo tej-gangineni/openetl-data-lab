@@ -1,0 +1,22 @@
+name        = "es_healthapp_logs"
+description = "HealthApp mobile app log (loghub) -> elasticsearch index healthapp_logs"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/logs-parts/HealthApp"
+filter    = "*.log"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "elasticsearch"
+write_mode = "append"
+index      = "healthapp_logs"
+url        = "http://127.0.0.1:9200"

@@ -1,0 +1,26 @@
+name        = "ch_linux_logs"
+description = "Linux syslog (loghub) -> clickhouse table linux_logs"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/logs-parts/Linux"
+filter    = "*.log"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "clickhouse"
+write_mode = "append"
+table      = "linux_logs"
+host       = "127.0.0.1"
+port       = 8123
+database   = "openetl"
+username   = "lab"
+password   = "lab"

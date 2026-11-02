@@ -1,0 +1,23 @@
+name        = "mongo_albums"
+description = "JSONPlaceholder albums -> mongodb collection albums"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/json-items/albums"
+filter    = "*.json"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "mongodb"
+write_mode = "append"
+collection = "albums"
+uri        = "mongodb://127.0.0.1:27017"
+database   = "openetl"

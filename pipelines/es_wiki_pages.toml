@@ -1,0 +1,22 @@
+name        = "es_wiki_pages"
+description = "Wikipedia HTML pages -> elasticsearch index wiki_pages"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/web"
+filter    = "*.html"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "elasticsearch"
+write_mode = "append"
+index      = "wiki_pages"
+url        = "http://127.0.0.1:9200"

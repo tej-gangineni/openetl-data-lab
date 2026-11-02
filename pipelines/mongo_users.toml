@@ -1,0 +1,23 @@
+name        = "mongo_users"
+description = "JSONPlaceholder users -> mongodb collection users"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/json-items/users"
+filter    = "*.json"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "mongodb"
+write_mode = "append"
+collection = "users"
+uri        = "mongodb://127.0.0.1:27017"
+database   = "openetl"

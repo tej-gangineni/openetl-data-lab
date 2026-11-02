@@ -1,0 +1,23 @@
+name        = "mongo_todos"
+description = "JSONPlaceholder todos -> mongodb collection todos"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/json-items/todos"
+filter    = "*.json"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "mongodb"
+write_mode = "append"
+collection = "todos"
+uri        = "mongodb://127.0.0.1:27017"
+database   = "openetl"

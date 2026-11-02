@@ -1,0 +1,23 @@
+name        = "qdrant_rfcs"
+description = "IETF RFC documents -> qdrant collection rfcs"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/rfc"
+filter    = "*.txt"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "qdrant"
+write_mode = "append"
+collection = "rfcs"
+url        = "http://127.0.0.1:6333"
+vector_size= 384

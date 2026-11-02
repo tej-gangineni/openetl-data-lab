@@ -1,0 +1,22 @@
+name        = "es_hadoop_logs"
+description = "Hadoop container logs (loghub) -> elasticsearch index hadoop_logs"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/logs/Hadoop"
+filter    = "*.log"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "elasticsearch"
+write_mode = "append"
+index      = "hadoop_logs"
+url        = "http://127.0.0.1:9200"

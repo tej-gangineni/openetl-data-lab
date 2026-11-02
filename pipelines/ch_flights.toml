@@ -1,0 +1,26 @@
+name        = "ch_flights"
+description = "monthly airline passengers -> clickhouse table flights"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/csv/flights"
+filter    = "*.csv"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "clickhouse"
+write_mode = "append"
+table      = "flights"
+host       = "127.0.0.1"
+port       = 8123
+database   = "openetl"
+username   = "lab"
+password   = "lab"

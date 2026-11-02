@@ -1,0 +1,47 @@
+# OpenETL data lab: five databases, each holding several tables/collections of different REAL public data (see README).
+# Host ports are shifted where needed so nothing on your Mac is touched:
+#   Postgres 5433 (not 5432, which a local Postgres already uses).
+name: openetl-lab
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: openetl-lab-postgres
+    environment: { POSTGRES_USER: lab, POSTGRES_PASSWORD: lab, POSTGRES_DB: openetl }
+    ports: ["127.0.0.1:5433:5432"]
+    volumes: ["pgdata:/var/lib/postgresql/data"]
+    healthcheck: { test: ["CMD-SHELL", "pg_isready -U lab -d openetl"], interval: 3s, timeout: 3s, retries: 20 }
+
+  mongodb:
+    image: mongo:7
+    container_name: openetl-lab-mongodb
+    ports: ["127.0.0.1:27017:27017"]
+    volumes: ["mongodata:/data/db"]
+    healthcheck: { test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"], interval: 4s, timeout: 5s, retries: 20 }
+
+  clickhouse:
+    image: clickhouse/clickhouse-server:24.8
+    container_name: openetl-lab-clickhouse
+    environment: { CLICKHOUSE_USER: lab, CLICKHOUSE_PASSWORD: lab, CLICKHOUSE_DB: openetl, CLICKHOUSE_DEFAULT_ACCESS_MANAGEMENT: "1" }
+    ports: ["127.0.0.1:8123:8123"]
+    volumes: ["chdata:/var/lib/clickhouse"]
+    ulimits: { nofile: { soft: 262144, hard: 262144 } }
+    healthcheck: { test: ["CMD-SHELL", "wget -qO- http://127.0.0.1:8123/ping | grep -q Ok"], interval: 4s, timeout: 4s, retries: 25 }
+
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:9.3.0
+    container_name: openetl-lab-elasticsearch
+    environment:
+      discovery.type: single-node
+      xpack.security.enabled: "false"
+      ES_JAVA_OPTS: "-Xms512m -Xmx512m"
+    ports: ["127.0.0.1:9200:9200"]
+    volumes: ["esdata:/usr/share/elasticsearch/data"]
+    healthcheck: { test: ["CMD-SHELL", "curl -sf http://127.0.0.1:9200/_cluster/health || exit 1"], interval: 5s, timeout: 5s, retries: 40 }
+
+  qdrant:
+    image: qdrant/qdrant:v1.12.4
+    container_name: openetl-lab-qdrant
+    ports: ["127.0.0.1:6333:6333"]
+    volumes: ["qdrantdata:/qdrant/storage"]
+
+volumes: { pgdata: {}, mongodata: {}, chdata: {}, esdata: {}, qdrantdata: {} }

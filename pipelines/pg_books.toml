@@ -1,0 +1,22 @@
+name        = "pg_books"
+description = "Project Gutenberg novels -> postgres table books"
+
+[[sources]]
+id        = "files"
+type      = "local"
+mode      = "full_refresh"
+path      = "/Users/tej/Documents/zysec/openetl-workspace/openetl-data-lab/downloads/books"
+filter    = "*.txt"
+recursive = true
+
+[[transforms]]
+type     = "extract"
+strategy = "fast"
+entities = false
+
+[[sinks]]
+id         = "out"
+type       = "postgres"
+write_mode = "append"
+table      = "books"
+dsn        = "postgresql://lab:lab@127.0.0.1:5433/openetl"
