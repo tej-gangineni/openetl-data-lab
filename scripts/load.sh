@@ -3,7 +3,8 @@
 # Jobs run from the lab folder on purpose: a .env copied from the repo's .env.example breaks the HTTP source.
 # usage: load.sh [name-filter]     e.g.  load.sh mongo_    (runs only matching pipelines, without emptying targets)
 set -uo pipefail
-LAB=$(cd "$(dirname "$0")/.." && pwd); REPO=${OPENETL_REPO:-/Users/tej/Documents/zysec/openetl-workspace/openetl}
+LAB=$(cd "$(dirname "$0")/.." && pwd); [ -f "$LAB/.env" ] && set -a && . "$LAB/.env" && set +a
+REPO=$(cd "$LAB" && cd "${OPENETL_REPO:-../openetl}" && pwd)
 EXTRAS="--extra postgres --extra mongodb --extra clickhouse --extra elasticsearch --extra qdrant"
 mkdir -p "$LAB/logs"
 if [ -z "${1:-}" ]; then "$LAB/scripts/download.sh" >/dev/null; python3 "$LAB/scripts/split_logs.py" "${LINES_PER_PART:-40}" "${MAX_LOG_LINES:-200000}"; python3 "$LAB/scripts/split_json.py"; python3 "$LAB/scripts/gen_pipelines.py"; "$LAB/scripts/reset.sh"; fi

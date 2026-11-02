@@ -2,7 +2,7 @@
 # Download REAL public datasets into downloads/. Nothing is generated locally. Safe to re-run (skips existing files).
 # Add HDFS=1 for the 186 MB HDFS log archive (a few hundred MB unpacked).
 set -euo pipefail
-cd "$(dirname "$0")/.."; D=downloads; UA="openetl-lab/1.0 (test data)"
+cd "$(dirname "$0")/.."; [ -f .env ] && set -a && . ./.env && set +a; D=downloads; UA="openetl-lab/1.0 (test data)"
 get() { [ -s "$2" ] && return 0; mkdir -p "$(dirname "$2")"; echo "  $2"; curl -fsSL --retry 5 --retry-all-errors -A "$UA" -o "$2.part" "$1" && mv "$2.part" "$2"; }
 
 echo "logs (loghub, Zenodo 8196385)"
